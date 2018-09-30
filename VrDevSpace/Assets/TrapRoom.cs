@@ -33,24 +33,17 @@ public class TrapRoom : MonoBehaviour {
 		}
 		if(yes){
 			TrapWalls.transform.position = new Vector3(transform.position.x, Mathf.Lerp(TrapWalls.transform.position.y, transform.position.y-5, 0.01f), transform.position.z);
+		} 
+		if(no){
+			TrapWalls.transform.position = new Vector3(transform.position.x, Mathf.Lerp(TrapWalls.transform.position.y, transform.position.y, 0.01f), transform.position.z);
 		}
 	}
 
 	void OnTriggerEnter(Collider other){
 		if(other.tag == "Player"){
-			no = false;
+			no = true;
 			yes = false;
 			StartLasers();
-		}
-	}
-	void OnTriggerStay(Collider other){
-		if(other.tag == "Player"){
-			if(no){
-				return;
-			} else {
-				TrapWalls.transform.position = new Vector3(transform.position.x, Mathf.Lerp(TrapWalls.transform.position.y, transform.position.y, 0.01f), transform.position.z);
-			}
-			
 		}
 	}
 
@@ -65,7 +58,6 @@ public class TrapRoom : MonoBehaviour {
 		Lasers.transform.GetChild(time).gameObject.SetActive(true);
 		if(time >= Lasers.transform.childCount-1){
 			UIManager.StartTrap(this);
-			no = true;
 			LasersOn = true;
 		}
 	}
@@ -78,6 +70,7 @@ public class TrapRoom : MonoBehaviour {
 
 	public void FinishTrap(){
 		LasersOn = false;
+		no = false;
 		yes = true;	
 		StopLasers();	
 	}
